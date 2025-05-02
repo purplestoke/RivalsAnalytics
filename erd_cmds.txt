@@ -1,0 +1,2 @@
+eralchemy -i sqlite:///instance/app.db -o erd.dot
+dot -Tpng erd.dot -o erd.png

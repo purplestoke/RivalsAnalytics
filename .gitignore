@@ -1,0 +1,21 @@
+# Ignore Python virtual environments
+backend/venv/
+
+# Ignore database files
+backend/instance/*.db
+
+# Ignore test database specifically
+backend/instance/test.db
+
+# Ignore .env
+backend/.env
+
+# __pycache__ and other Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VSCode or PyCharm
+.vscode/
+.idea/
