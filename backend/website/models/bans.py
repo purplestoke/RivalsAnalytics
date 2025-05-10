@@ -7,4 +7,4 @@ class Bans(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    team_bans = db.relationship('TeamBan', back_populates='bans')
+    team_bans = db.relationship('TeamBan', back_populates='bans', cascade="all, delete-orphan")

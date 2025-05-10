@@ -5,7 +5,7 @@ class Passive(db.Model):
     __tablename__ = 'passive'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(25), nullable=False)
+    name = db.Column(db.String(25), nullable=True)
     cooldown = db.Column(db.Integer, nullable=True)
     trigger = db.Column(db.String(25), nullable=True)
     description = db.Column(db.String(50), nullable=True)

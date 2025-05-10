@@ -4,7 +4,7 @@ from website.models.team_up import team_up_participants
 
 class Hero(db.Model):
     __tablename__ = 'heroes'
-
+ 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
     health = db.Column(db.Integer, nullable=False)

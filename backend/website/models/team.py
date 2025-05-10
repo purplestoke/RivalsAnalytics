@@ -10,8 +10,8 @@ class Team(db.Model):
 
     players = db.relationship('Player', backref='team', lazy=True)
     
-    matches_as_team1 = db.relationship('Match', foreign_keys='Match.team1_id', backref='team1', lazy=True)
-    matches_as_team2 = db.relationship('Match', foreign_keys='Match.team2_id', backref='team2', lazy=True)
+    matches_as_team1 = db.relationship('Match', foreign_keys='Match.team1_id', backref='team1', lazy=True, cascade="all, delete-orphan")
+    matches_as_team2 = db.relationship('Match', foreign_keys='Match.team2_id', backref='team2', lazy=True, cascade="all, delete-orphan")
     matches_won = db.relationship('Match', foreign_keys='Match.winning_team_id', backref='winner', lazy=True)
 
     partitions = db.relationship('Partition', back_populates='team')

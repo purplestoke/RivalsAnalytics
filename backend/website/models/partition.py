@@ -1,7 +1,7 @@
 from website import db
 from sqlalchemy.orm import relationship
 
-
+ 
 class Partition(db.Model):
     __tablename__ = 'partition'
 

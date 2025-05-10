@@ -109,7 +109,7 @@ def seed_test_data():
 
     create_hero_with_abilities(
         name="Starlord", health=250, role="Duelist", patch=patch,
-        passive={'name': 'None'},
+        passive={},
         primary={"name": "Element Guns", "damage": 6.5, "fire_rate": 40.0},
         secondary={"name": "Stellar Shift", "cooldown": 5},
         e_ability={"name": "Blaster Barrage", "cooldown": 8.0, "damage": 8.0},
@@ -117,9 +117,110 @@ def seed_test_data():
         ult={"name": "Galactic Legend", "charge_cost": 3100.0}
     )
 
-    # Create map
+    # CREATE MAPS
     convoy = Map(name="Symbiotic-Surface", type="Convergence")
     db.session.add(convoy)
 
+    domination = Map(name='Hall of Djalia', type='Domination')
+    db.session.add(domination)
+
     db.session.commit()
-    print("Database seeded successfully!")
+
+    # MATCH BANS
+    bans = Bans()
+    db.session.add(bans)
+    db.session.commit()
+
+    luna = db.session.query(Hero).filter(Hero.name == 'Luna Snow').first()
+    groot = db.session.query(Hero).filter(Hero.name == 'Groot').first()
+    adam = db.session.query(Hero).filter(Hero.name == 'Adam Warlock').first()
+
+    sentinels = db.session.query(Team).filter(Team.name == 'Sentinels').first()
+
+    team1_ban = TeamBan(ban1_id=luna.id, ban2_id=groot.id, bans_id=bans.id, save_id=adam.id, team_id=sentinels.id)
+    team2_ban = TeamBan(ban1_id=luna.id, ban2_id=groot.id, bans_id=bans.id, save_id=adam.id, team_id=team1.id)
+
+    db.session.add(team1_ban)
+    db.session.commit()
+    db.session.add(team2_ban)
+    db.session.commit()
+
+    # CREATE MATCH
+    seed_match = Match(
+        attack_map_id=convoy.id, 
+        defense_map_id=convoy.id,
+        team1_id=team1.id,
+        team2_id=team2.id,
+        winning_team_id=team1.id,
+        bans_id=bans.id,
+        replay_id=None 
+        )
+     
+    db.session.add(seed_match)
+    db.session.commit()
+
+    # CREATE POINTS
+    point1 = Point(
+        map_id=convoy.id,
+        number=1,
+        label='3 fights'
+    )
+
+    point2 = Point(
+        map_id=convoy.id,
+        number=2,
+        label=None
+    )
+
+    point3 = Point(
+        map_id=convoy.id,
+        number=3,
+        label=None
+    )
+
+    db.session.add_all([point1, point2, point3])
+    db.session.commit()
+
+    # CREATE PARTITIONS
+    partition1_1 = Partition(
+        match_id=seed_match.id,
+        team_id=team1.id,
+        point_id=point1.id,
+        segment_number=11,
+        fights=4,
+        ults_for=4,
+        ults_against=5,
+        time=125
+    )
+    db.session.add(partition1_1)
+    db.session.commit()
+
+    partition1_2 = Partition(
+        match_id=seed_match.id,
+        team_id=team1.id,
+        point_id=point1.id,
+        segment_number=12,
+        fights=2,
+        ults_for=3,
+        ults_against=3,
+        time=50
+    )
+
+    db.session.add(partition1_2)
+    db.session.commit()
+
+    partition1_3 = Partition(
+        match_id=seed_match.id,
+        team_id=team1.id,
+        point_id=point1.id,
+        segment_number=13,
+        fights=1,
+        ults_for=2,
+        ults_against=1,
+        time=30
+    )
+
+    db.session.add(partition1_3)
+    db.session.commit()
+
+
